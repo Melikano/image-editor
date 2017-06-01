@@ -1,12 +1,15 @@
 package ir.aut.app;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
 
 class Menu extends JFrame {
-
 
     private JMenuItem fNew;
     private JMenuItem fOpen;
@@ -18,6 +21,12 @@ class Menu extends JFrame {
     private JMenuItem eColor;
     private JMenuItem eAddText;
     private JMenuItem eAddSticker;
+    private JLabel showingImage;
+    private JSlider slider;
+    private JPanel panel;
+    private BufferedImage image;
+    private ImageIcon img = new ImageIcon();
+    private RotateImage rotateImage = new RotateImage();
 
 
     Menu() {
@@ -80,7 +89,13 @@ class Menu extends JFrame {
         menuBar.add(FileMenu);
         menuBar.add(EditMenu);
 
+        slider = new JSlider(0, 100);
+        panel = new JPanel(new BorderLayout());
+
+
         setJMenuBar(menuBar);
+
+
     }
 
     public class MenuEventHandler implements ActionListener {
@@ -88,8 +103,36 @@ class Menu extends JFrame {
         @Override
         public void actionPerformed(ActionEvent event) {
 
-        }
+            if (event.getSource() == fOpen) {
+                OpenImage openImage = new OpenImage(image);
+                openImage.read();
+                image = openImage.getImage();
+                img.setImage(image);
+                showingImage = new JLabel(img, JLabel.CENTER);
+                panel.add(showingImage);
+                add(panel);
+                setVisible(true);
 
+            }
+            if (event.getSource() == eRotate) {
+                panel.add(slider, BorderLayout.NORTH);
+                add(panel);
+                setVisible(true);
+                slider.addChangeListener(new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        showingImage.setVisible(false);
+                        rotateImage.setImage(image);
+                        rotateImage.rotateImage(slider.getValue());
+                        panel.add(rotateImage);
+                        add(panel);
+                        setVisible(true);
+                    }
+                });
+
+            }
+
+        }
     }
 }
 

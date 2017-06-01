@@ -7,5 +7,6 @@ public class TestImageEditor {
 
         Menu myMenu = new Menu();
         myMenu.setVisible(true);
+
     }
 }
