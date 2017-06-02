@@ -13,7 +13,11 @@ public class CropImage extends JComponent {
     }
 
     BufferedImage crop(int startW, int startH, int endW, int endH){
-        image = image.getSubimage(startW, startH, endW - startW, endH - startH);
+        try {
+            image = image.getSubimage(startW, startH, endW - startW, endH - startH);
+        }catch (NullPointerException e){
+            System.err.println("unable to crop");
+        }
         return image;
     }
 
