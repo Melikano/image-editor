@@ -29,7 +29,6 @@ class OpenImage extends JComponent{
         }
 
     }
-
     BufferedImage getImage(){
         return image;
     }

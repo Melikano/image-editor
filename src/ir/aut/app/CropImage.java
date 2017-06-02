@@ -1,22 +1,20 @@
 package ir.aut.app;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class RotateImage extends JComponent {
+public class CropImage extends JComponent {
 
     private BufferedImage image;
-    private double angle;
 
 
-    RotateImage() {
+    CropImage(){
     }
 
-void rotateImage(int rotateAngle){
-        angle = rotateAngle * 3.6;
-        repaint();
+    BufferedImage crop(int startW, int startH, int endW, int endH){
+        image = image.getSubimage(startW, startH, endW - startW, endH - startH);
+        return image;
     }
 
     @Override
@@ -26,13 +24,12 @@ void rotateImage(int rotateAngle){
         {
             Graphics2D g2D = (Graphics2D) graphics;
             g2D.translate(this.getSize().width/2,this.getSize().height/2);
-            g2D.rotate(Math.toRadians(angle));
-            g2D.drawImage(image, -image.getWidth()/2, -image.getHeight()/2,null);
+            g2D.drawImage(image, -image.getWidth()/2, -image.getHeight()/2, null);
         }catch (NullPointerException e){
             System.out.println("no image is");
         }
-    }
 
+    }
     void setImage(BufferedImage image) {
         this.image = image;
     }
